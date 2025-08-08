@@ -1,0 +1,59 @@
+<html>
+<head>
+<meta charset="UTF-8">
+  <title>Roll Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #showButton {
+      margin-top: 20px;
+      display: none;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>আপনার রোল নাম্বার লিখুন:</h2>
+  <input type="number" id="rollInput" placeholder="যেমনঃ 113" />
+  <button onclick="checkRoll()">চেক করুন</button>
+
+  <div id="showButton">
+    <p>✅ আপনি নবম/দশম শ্রেণীর হলে নিচের বাটনে চাপ দিন:</p>
+<button onclick="window.location.href='LINK_HERE'">নবম দশম শ্রেণীর রেজাল্ট</button>
+  <!--Tab to edit-->
+    <button onclick="window.l
+    <button onclick="window.location.href='LINK_HERE'">নবম দশম শ্রেণীর রেজাল্ট</button>
+ </div>
+
+  <script>
+    function checkRoll() {
+      const roll = parseInt(document.getElementById("rollInput").value);
+      if (roll >= 101 && roll <= 150) {
+        document.getElementById("showButton").style.display = "block";
+      } else {
+        alert("❌ আপনার রোল নাম্বার এই পরিসরের মধ্যে নেই (101-150)।");
+        document.getElementById("showButton").style.display = "none";
+      }
+    }
+</script>
+<html>
+<head>
+  <title>Button Link Example</title>
+</head>
+<body>
+
+  <!-- লিংক সহ বাটন -->
+  <a href="page2.html">
+    <button>এখানে যান</button>
+  </a>
+
+</body>
+</html>
+

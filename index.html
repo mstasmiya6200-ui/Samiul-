@@ -1,1 +1,108 @@
 index.html 
+<html>
+<head>
+  <title>SSC Result Checker</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      color: black; /* সব লেখা কালো */
+      font-family: Arial, sans-serif;
+    }
+    .box {
+      border: 2px solid green; /* পেঁপে/সবুজ রঙ বর্ডার */
+      background-color: #c6f7c6; /* হালকা সবুজ ব্যাকগ্রাউন্ড */
+      padding: 10px;
+      margin: 10px auto;
+      width: 300px;
+      border-radius: 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 5px;
+      border: 1px solid green;
+      border-radius: 3px;
+    }
+    button {
+      background-color: green;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: darkgreen;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">SSC মাধ্যমিক পরীক্ষার রেজাল্ট</h2>
+
+  <form id="resultForm">
+    <div class="box">
+      Roll No:
+      <input type="text" id="roll" required>
+    </div>
+
+    <div class="box">
+      Registration No:
+      <input type="text" id="reg" required>
+    </div>
+
+    <div class="box">
+      Year:
+      <input type="text" id="year" required>
+    </div>
+
+    <div class="box">
+      Board:
+      <select id="board" required>
+        <option value="">Select Board</option>
+        <option value="rajshahi">Rajshahi</option>
+        <option value="dhaka">Dhaka</option>
+      </select>
+    </div>
+
+    <div class="box">
+      2 + 3 = ?
+      <input type="text" id="captcha" required>
+    </div>
+
+    <div class="box">
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+
+  <!-- লুকানো লিংক -->
+  <a id="nextPageLink" href="result.html" style="display:none;"></a>
+
+  <script>
+    document.getElementById("resultForm").addEventListener("submit", function(e){
+      e.preventDefault();
+
+      var roll = document.getElementById("roll").value.trim();
+      var reg = document.getElementById("reg").value.trim();
+      var year = document.getElementById("year").value.trim();
+      var board = document.getElementById("board").value;
+      var captcha = document.getElementById("captcha").value.trim();
+
+      if(roll === "" || reg === "" || year === "" || board === "" || captcha === "") {
+        alert("সব ঘর পূরণ করুন।");
+        return;
+      }
+
+      if(captcha != "5") {
+        alert("ভুল যোগফল! আবার দিন।");
+        return;
+      }
+
+      if(roll === "123456" && reg === "654321") {
+        document.getElementById("nextPageLink").click();
+      } else {
+        alert("রোল বা রেজিস্ট্রেশন নম্বর ভুল!");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,1 +1,26 @@
+async function searchResult() {
+    const roll = document.getElementById('rollInput').value; // ইনপুট বক্সের আইডি
+    
+    // লোডিং মেসেজ দেখানো (অপশনাল)
+    document.getElementById('displayBox').innerText = "খুঁজছি...";
+
+    try {
+        const response = await fetch(`/.netlify/functions/get-result?roll=${roll}`);
+        const data = await response.json();
+
+        if (data.error) {
+            alert("দুঃখিত: " + data.error);
+            document.getElementById('displayBox').innerText = "";
+        } else {
+            // ডাটাবেজ থেকে আসা তথ্যগুলো স্ক্রিনে দেখানো
+            document.getElementById('studentName').innerText = "নাম: " + data.name;
+            document.getElementById('studentGPA').innerText = "জিপিএ: " + data.gpa;
+            document.getElementById('studentStatus').innerText = "ফলাফল: " + data.status;
+            document.getElementById('displayBox').style.display = 'block';
+        }
+    } catch (err) {
+        console.error("এরর হয়েছে:", err);
+        alert("সার্ভারে সমস্যা হচ্ছে, আবার চেষ্টা করুন।");
+    }
+}
 

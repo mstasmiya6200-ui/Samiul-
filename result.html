@@ -1,1 +1,93 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রেজাল্ট দেখুন - বাগবাড়ী শহীদ জিয়া ডিগ্রী কলেজ</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .result-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #displayBox {
+            margin-top: 20px;
+            padding: 15px;
+            border-top: 2px solid #28a745;
+            display: none; /* শুরুতে লুকানো থাকবে */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="result-container">
+        <h2>ছাত্র-ছাত্রীর রেজাল্ট খুঁজুন</h2>
+        <input type="number" id="rollInput" placeholder="রোল নম্বর দিন">
+        <br>
+        <button onclick="searchResult()">ফলাফল দেখুন</button>
+
+        <div id="displayBox">
+            <h3 id="studentName" style="color: #333;"></h3>
+            <p id="studentGPA" style="font-weight: bold;"></p>
+            <p id="studentStatus"></p>
+        </div>
+    </div>
+
+    <script>
+    async function searchResult() {
+        const roll = document.getElementById('rollInput').value;
+        const displayBox = document.getElementById('displayBox');
+        
+        if(!roll) {
+            alert("অনুগ্রহ করে একটি রোল নম্বর দিন!");
+            return;
+        }
+
+        // খোঁজার সময় মেসেজ দেখানো
+        document.getElementById('studentName').innerText = "খোঁজা হচ্ছে...";
+        displayBox.style.display = 'block';
+
+        try {
+            // আপনার নেটলিফাই ফাংশন কল করা হচ্ছে
+            const response = await fetch(`/.netlify/functions/get-result?roll=${roll}`);
+            const data = await response.json();
+
+            if (data.error) {
+                alert("দুঃখিত: " + data.error);
+                displayBox.style.display = 'none';
+            } else {
+                // ডাটাবেজ থেকে আসা তথ্যগুলো বসানো
+                document.getElementById('studentName').innerText = "নাম: " + data.name;
+                document.getElementById('studentGPA').innerText = "জিপিএ: " + data.gpa;
+                document.getElementById('studentStatus').innerText = "অবস্থা: " + data.status;
+                displayBox.style.display = 'block';
+            }
+        } catch (err) {
+            console.error(err);
+            alert("সার্ভারে সমস্যা হচ্ছে, পরে চেষ্টা করুন।");
+        }
+    }
+    </script>
+</body>
+</html>

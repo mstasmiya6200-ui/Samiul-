@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,13 +15,25 @@
             text-align: center;
             background-color: #f9f9f9;
         }
+
+        /* আপনার ইনপুট বক্সের নতুন এবং স্পষ্ট সিএসএস কোড */
         input {
             width: 80%;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 10px;
-            border: 1px solid #ccc;
+            border: 2px solid #28a745; 
             border-radius: 5px;
+            font-size: 18px; 
+            color: #000000 !important; /* টাইপ করার সময় লেখা একদম গাঢ় কালো দেখাবে */
+            background-color: #ffffff !important; /* বক্সের ভেতরটা সবসময় সাদা থাকবে */
         }
+
+        /* রোল নম্বর লেখার আগে ভেতরের হালকা লেখাটি স্পষ্ট করার জন্য */
+        input::placeholder {
+            color: #555555 !important;
+            opacity: 1 !important;
+        }
+
         button {
             padding: 10px 20px;
             background-color: #28a745;
@@ -30,12 +41,13 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
         }
         #displayBox {
             margin-top: 20px;
             padding: 15px;
             border-top: 2px solid #28a745;
-            display: none; /* শুরুতে লুকানো থাকবে */
+            display: none; 
         }
     </style>
 </head>
@@ -45,12 +57,12 @@
         <h2>ছাত্র-ছাত্রীর রেজাল্ট খুঁজুন</h2>
         <input type="number" id="rollInput" placeholder="রোল নম্বর দিন">
         <br>
-        <button onclick="searchResult()">ফলাফল দেখুন</button>
+        <button onclick="searchResult()">ফলাफल দেখুন</button>
 
         <div id="displayBox">
             <h3 id="studentName" style="color: #333;"></h3>
-            <p id="studentGPA" style="font-weight: bold;"></p>
-            <p id="studentStatus"></p>
+            <p id="studentGPA" style="font-weight: bold; color: #000;"></p>
+            <p id="studentStatus" style="color: #000;"></p>
         </div>
     </div>
 
@@ -64,12 +76,10 @@
             return;
         }
 
-        // খোঁজার সময় মেসেজ দেখানো
         document.getElementById('studentName').innerText = "খোঁজা হচ্ছে...";
         displayBox.style.display = 'block';
 
         try {
-            // আপনার নেটলিফাই ফাংশন কল করা হচ্ছে
             const response = await fetch(`/.netlify/functions/get-result?roll=${roll}`);
             const data = await response.json();
 
@@ -77,7 +87,6 @@
                 alert("দুঃখিত: " + data.error);
                 displayBox.style.display = 'none';
             } else {
-                // ডাটাবেজ থেকে আসা তথ্যগুলো বসানো
                 document.getElementById('studentName').innerText = "নাম: " + data.name;
                 document.getElementById('studentGPA').innerText = "জিপিএ: " + data.gpa;
                 document.getElementById('studentStatus').innerText = "অবস্থা: " + data.status;
@@ -91,3 +100,6 @@
     </script>
 </body>
 </html>
+
+
+        

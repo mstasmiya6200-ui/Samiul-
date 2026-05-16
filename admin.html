@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অ্যাডমিন - বাগবাড়ি শহীদ জিয়া ডিগ্রী কলেজ</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+        header {
+            background: #004080;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background: #ddd;
+            color: black;
+        }
+        section {
+            padding: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            margin-bottom: 60px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        footer {
+            background: #004080;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .admin-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #004080;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #ff6600;
+        }
+        h2 {
+            color: #004080;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>শহীদ জিয়া ডিগ্রী কলেজ</h1>
+        <p>অ্যাডমিন প্যানেল</p>
+    </header>
+
+    <nav>
+        <a href="index.html">হোম</a>
+        <a href="result.html">রেজাল্ট</a>
+        <a href="teachers.html">শিক্ষক</a>
+        <a href="about.html">সম্পর্কে</a>
+        <a href="admin.html">অ্যাডমিন</a>
+    </nav>
+
+    <section>
+        <h2>রেজাল্ট যোগ করুন</h2>
+        <div class="admin-form">
+            <div class="form-group">
+                <label>সিরিয়াল নম্বর:</label>
+                <input type="number" id="serial" placeholder="যেমন: 1">
+            </div>
+            <div class="form-group">
+                <label>রোল নম্বর:</label>
+                <input type="number" id="roll" placeholder="যেমন: 101">
+            </div>
+            <div class="form-group">
+                <label>শিক্ষার্থীর নাম:</label>
+                <input type="text" id="name" placeholder="যেমন: করিম আহমেদ">
+            </div>
+            <div class="form-group">
+                <label>সাবজেক্ট:</label>
+                <input type="text" id="subject" placeholder="যেমন: বাংলা">
+            </div>
+            <div class="form-group">
+                <label>জিপিএ:</label>
+                <input type="number" id="gpa" step="0.01" placeholder="যেমন: 3.50">
+            </div>
+            <button onclick="addResult()">রেজাল্ট যোগ করুন</button>
+        </div>
+        <div id="message" style="margin-top: 20px; text-align: center; color: green;"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 শহীদ জিয়া ডিগ্রী কলেজ</p>
+    </footer>
+
+    <script>
+    async function addResult() {
+        const serial = document.getElementById('serial').value;
+        const roll = document.getElementById('roll').value;
+        const name = document.getElementById('name').value;
+        const subject = document.getElementById('subject').value;
+        const gpa = document.getElementById('gpa').value;
+        const messageDiv = document.getElementById('message');
+
+        if (!serial || !roll || !name || !subject || !gpa) {
+            messageDiv.style.color = 'red';
+            messageDiv.innerText = 'সব ফিল্ড পূরণ করুন!';
+            return;
+        }
+
+        try {
+            const response = await fetch('/.netlify/functions/addResult', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    serial: parseInt(serial),
+                    roll: parseInt(roll),
+                    name: name,
+                    subject: subject,
+                    gpa: parseFloat(gpa)
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                messageDiv.style.color = 'green';
+                messageDiv.innerText = '✓ রেজাল্ট সফলভাবে যোগ হয়েছে!';
+                document.getElementById('serial').value = '';
+                document.getElementById('roll').value = '';
+                document.getElementById('name').value = '';
+                document.getElementById('subject').value = '';
+                document.getElementById('gpa').value = '';
+            } else {
+                messageDiv.style.color = 'red';
+                messageDiv.innerText = '✗ সমস্যা হয়েছে: ' + data.error;
+            }
+        } catch (error) {
+            messageDiv.style.color = 'red';
+            messageDiv.innerText = '✗ সার্ভার সমস্যা: ' + error.message;
+        }
+    }
+    </script>
+
+</body>
+</html>

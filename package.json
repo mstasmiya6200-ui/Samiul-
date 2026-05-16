@@ -1,6 +1,16 @@
 {
+  "name": "bagbari-college-website",
+  "version": "1.0.0",
+  "description": "বাগবাড়ি শহীদ জিয়া ডিগ্রী কলেজ ওয়েবসাইট",
+  "main": "index.html",
   "dependencies": {
-    "pg": "^8.11.0"
-  }
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "netlify dev",
+    "build": "echo 'Build complete'"
+  },
+  "author": "মোঃ সামিউল আলীম",
+  "license": "MIT"
 }
-

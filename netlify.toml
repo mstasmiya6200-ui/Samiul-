@@ -1,0 +1,14 @@
+[build]
+  command = "npm install"
+  functions = "netlify/functions"
+  publish = "."
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[env]
+  # এই environment variables Netlify Dashboard এ সেট করতে হবে
+  SUPABASE_URL = "আপনার_সুপাবেস_ইউআরএল"
+  SUPABASE_KEY = "আপনার_সুপাবেস_এপিকে"

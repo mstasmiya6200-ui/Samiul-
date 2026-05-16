@@ -1,105 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>রেজাল্ট দেখুন - বাগবাড়ী শহীদ জিয়া ডিগ্রী কলেজ</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>রেজাল্ট - বাগবাড়ি শহীদ জিয়া ডিগ্রী কলেজ</title>
     <style>
-        .result-container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            text-align: center;
-            background-color: #f9f9f9;
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
         }
-
-        /* আপনার ইনপুট বক্সের নতুন এবং স্পষ্ট সিএসএস কোড */
-        input {
-            width: 80%;
-            padding: 12px;
-            margin-bottom: 10px;
-            border: 2px solid #28a745; 
-            border-radius: 5px;
-            font-size: 18px; 
-            color: #000000 !important; /* টাইপ করার সময় লেখা একদম গাঢ় কালো দেখাবে */
-            background-color: #ffffff !important; /* বক্সের ভেতরটা সবসময় সাদা থাকবে */
-        }
-
-        /* রোল নম্বর লেখার আগে ভেতরের হালকা লেখাটি স্পষ্ট করার জন্য */
-        input::placeholder {
-            color: #555555 !important;
-            opacity: 1 !important;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #28a745;
+        header {
+            background: #004080;
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+            padding: 20px;
+            text-align: center;
         }
-        #displayBox {
+        nav {
+            background: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background: #ddd;
+            color: black;
+        }
+        section {
+            padding: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            margin-bottom: 60px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        footer {
+            background: #004080;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 20px;
-            padding: 15px;
-            border-top: 2px solid #28a745;
-            display: none; 
+        }
+        .results-table thead {
+            background: #004080;
+            color: white;
+        }
+        .results-table th,
+        .results-table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .results-table tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .results-table tbody tr:hover {
+            background: #e8f4f8;
+        }
+        h2 {
+            color: #004080;
+            text-align: center;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
         }
     </style>
 </head>
 <body>
 
-    <div class="result-container">
-        <h2>ছাত্র-ছাত্রীর রেজাল্ট খুঁজুন</h2>
-        <input type="number" id="rollInput" placeholder="রোল নম্বর দিন">
-        <br>
-        <button onclick="searchResult()">ফলাफल দেখুন</button>
+    <header>
+        <h1>শহীদ জিয়া ডিগ্রী কলেজ</h1>
+        <p>রেজাল্ট পেজ</p>
+    </header>
 
-        <div id="displayBox">
-            <h3 id="studentName" style="color: #333;"></h3>
-            <p id="studentGPA" style="font-weight: bold; color: #000;"></p>
-            <p id="studentStatus" style="color: #000;"></p>
-        </div>
-    </div>
+    <nav>
+        <a href="index.html">হোম</a>
+        <a href="result.html">রেজাল্ট</a>
+        <a href="teachers.html">শিক্ষক</a>
+        <a href="about.html">সম্পর্কে</a>
+        <a href="admin.html">অ্যাডমিন</a>
+    </nav>
 
-    <script>
-    async function searchResult() {
-        const roll = document.getElementById('rollInput').value;
-        const displayBox = document.getElementById('displayBox');
-        
-        if(!roll) {
-            alert("অনুগ্রহ করে একটি রোল নম্বর দিন!");
-            return;
-        }
+    <section>
+        <h2>শিক্ষার্থীর রেজাল্ট</h2>
+        <div id="results-list" class="loading">রেজাল্ট লোড হচ্ছে...</div>
+    </section>
 
-        document.getElementById('studentName').innerText = "খোঁজা হচ্ছে...";
-        displayBox.style.display = 'block';
+    <footer>
+        <p>&copy; 2025 শহীদ জিয়া ডিগ্রী কলেজ</p>
+    </footer>
 
-        try {
-            const response = await fetch(`/.netlify/functions/get-result?roll=${roll}`);
-            const data = await response.json();
-
-            if (data.error) {
-                alert("দুঃখিত: " + data.error);
-                displayBox.style.display = 'none';
-            } else {
-                document.getElementById('studentName').innerText = "নাম: " + data.name;
-                document.getElementById('studentGPA').innerText = "জিপিএ: " + data.gpa;
-                document.getElementById('studentStatus').innerText = "অবস্থা: " + data.status;
-                displayBox.style.display = 'block';
-            }
-        } catch (err) {
-            console.error(err);
-            alert("সার্ভারে সমস্যা হচ্ছে, পরে চেষ্টা করুন।");
-        }
-    }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
-
-
-        

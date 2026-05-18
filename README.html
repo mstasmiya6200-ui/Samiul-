@@ -1,0 +1,142 @@
+# Samiul-
+I am a web developer 
+
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অনুবাদক</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .translator-box {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>বাংলা-ইংরেজি অনুবাদক</h1>
+    <div class="translator-box">
+        <div>
+            <label for="bengali-text">বাংলা লিখুন:</label>
+            <textarea id="bengali-text" placeholder="এখানে বাংলা লিখুন..."></textarea>
+        </div>
+        <div>
+            <label for="english-text">ইংরেজি অনুবাদ:</label>
+            <textarea id="english-text" placeholder="এখানে ইংরেজি অনুবাদ দেখতে পাবেন..." readonly></textarea>
+        </div>
+        <div class="buttons">
+            <button onclick="translateToEnglish()">অনুবাদ করুন (বাংলা থেকে ইংরেজি)</button>
+            <button onclick="translateToBengali()">অনুবাদ করুন (ইংরেজি থেকে বাংলা)</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function translateToEnglish() {
+        const bengaliText = document.getElementById('bengali-text').value;
+        if (bengaliText.trim() === '') {
+            document.getElementById('english-text').value = '';
+            return;
+        }
+        const translations = {
+            'কেমন আছো': 'How are you?',
+            'কি করো': 'What are you doing?',
+            'খাইছো নাকি': 'Have you eaten?',
+            'বিদ্যালয়': 'School',
+            'কোথায় যাও': 'Where are you going?',
+            'আমি ভালো আছি': 'I am fine.',
+            'তুমি কি করছো': 'What are you doing?',
+            'আমার নাম': 'My name is',
+            'তোমার নাম কি': 'What is your name?',
+            'আমি খেতে যাচ্ছি': 'I am going to eat.',
+            'আমি বিদ্যালয়ে যাবো': 'I will go to school.',
+            'আমি ঘুমাবো': 'I will sleep.'
+        };
+        const translatedText = translations[bengaliText] || "অনুবাদ খুঁজে পাওয়া যায়নি।";
+        document.getElementById('english-text').value = translatedText;
+    }
+
+    function translateToBengali() {
+        const englishText = document.getElementById('bengali-text').value;
+        if (englishText.trim() === '') {
+            document.getElementById('english-text').value = '';
+            return;
+        }
+        const translations = {
+            'How are you?': 'কেমন আছো?',
+            'What are you doing?': 'তুমি কি করছো?',
+            'Have you eaten?': 'তুমি কি খেয়েছো?',
+            'School': 'বিদ্যালয়',
+            'Where are you going?': 'তুমি কোথায় যাচ্ছো?',
+            'I am fine.': 'আমি ভালো আছি।',
+            'My name is': 'আমার নাম হলো',
+            'What is your name?': 'তোমার নাম কি?',
+            'I am going to eat.': 'আমি খেতে যাচ্ছি।',
+            'I will go to school.': 'আমি বিদ্যালয়ে যাবো।',
+            'I will sleep.': 'আমি ঘুমাবো।'
+        };
+        const translatedText = translations[englishText] || "অনুবাদ খুঁজে পাওয়া যায়নি।";
+        document.getElementById('english-text').value = translatedText;
+    }
+</script>
+
+</body>
+</html>
